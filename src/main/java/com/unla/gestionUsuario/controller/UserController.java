@@ -3,7 +3,6 @@ package com.unla.gestionUsuario.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +29,16 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado exitosamente");
 		}catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al crear el usuario, " + e.getMessage());
+		}
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<Object> loginUser (@RequestBody UserDTO newUser){	
+		try {	
+			userService.loginUser(userMapper.dtoToUser(newUser));
+			return ResponseEntity.status(HttpStatus.OK).body("Usuario logeado correctamente");
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al iniciar sesion, " + e.getMessage());
 		}
 	}
 }
