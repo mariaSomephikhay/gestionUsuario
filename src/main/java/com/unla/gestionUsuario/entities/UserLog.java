@@ -1,6 +1,7 @@
 package com.unla.gestionUsuario.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import org.hibernate.annotations.CreationTimestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,7 +28,7 @@ public class UserLog {
 	private String event;
 	
 	@Column(name="description", nullable=false)
-	private LocalDate description;
+	private String description;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_id", nullable=true)
@@ -35,6 +36,6 @@ public class UserLog {
 	
 	@CreationTimestamp
 	@Column(name="created_at", nullable=false)
-	private LocalDate createdAt;
+	private LocalDateTime createdAt;
 	
 }
