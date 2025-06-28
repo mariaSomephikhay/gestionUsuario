@@ -25,22 +25,24 @@ public class UserService implements IUserService{
 	}
 	
 	@Override
-	public Boolean loginUser(User user) throws Exception{
-		Boolean login = false;
+	public User loginUser(User user) throws Exception{
 		User userLogin = this.getUserById(user.getId());
-		
-		if(userLogin.getPassword().equals(user.getPassword())) {
-			UserLog userLog = new UserLog();
-			userLog.setUser(userLogin);
-			userLog.setEvent("0");
-			userLog.setDescription("Usuario logeado");
-			UserLogRepository.save(userLog);
+		if(userLogin.isState()) {
+			if(userLogin.getPassword().equals(user.getPassword())) {
+				UserLog userLog = new UserLog();
+				userLog.setUser(userLogin);
+				userLog.setEvent("0");
+				userLog.setDescription("Usuario logeado");
+				UserLogRepository.save(userLog);
+			}else {
+				this.invalidPasswordCount(userLogin);
+				throw UserException.of(UserException.Type.INVALID_PASSWORD);
+			}
 		}else {
-			throw UserException.of(UserException.Type.INVALID_PASSWORD);
-			//TODO: sumar contador de contraseña invalida
+			throw UserException.of(UserException.Type.BLOCK_USER);
 		}
 		
-		return login;
+		return userLogin;
 	}
 
 	@Override
@@ -52,5 +54,20 @@ public class UserService implements IUserService{
 		userRepositorio.save(user);
 		
 		return user;
+	}
+	
+	public void invalidPasswordCount(User user) {
+		int blockAmount = user.getBlockAmount()+1;
+		user.setBlockAmount(blockAmount);
+		
+		if(blockAmount>2) {
+			user.setState(false);
+		}
+		
+		userRepositorio.save(user);
+	}
+	
+	public void resetInvalidPasswordCount() {
+		//TODO
 	}
 }

@@ -5,5 +5,5 @@ import com.unla.gestionUsuario.entities.User;
 public interface IUserService {
 	public User getUserById(String id) throws Exception;
 	public User createUser(User user)throws Exception;
-	public Boolean loginUser(User user)throws Exception;
+	public User loginUser(User user)throws Exception;
 }
