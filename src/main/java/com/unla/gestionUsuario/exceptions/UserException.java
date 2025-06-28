@@ -1,6 +1,7 @@
 package com.unla.gestionUsuario.exceptions;
 
 public class UserException extends Exception {
+	private static final long serialVersionUID = -8712610664365126958L;
 	private final Type tipo;
 	
 	public enum Type {

@@ -38,7 +38,7 @@ public class UserController {
 			userService.loginUser(userMapper.dtoToUser(newUser));
 			return ResponseEntity.status(HttpStatus.OK).body("Usuario logeado correctamente");
 		}catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al iniciar sesion, " + e.getMessage());
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error al iniciar sesion, " + e.getMessage());
 		}
 	}
 }
